@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MHT CET College Predictor | Top 20 Maharashtra Colleges</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- HEADER -->
+        <header class="navbar">
+            <div class="logo-group">
+                <div class="logo-icon">🎓</div>
+                <div class="logo-text">
+                    <h1>MHT CET College Predictor</h1>
+                    <p>Maharashtra Engineering Admissions (2023–2025 CAP Data) • Calibrated v2.0</p>
+                </div>
+            </div>
+            <div class="top20-pill">
+                <span class="icon">🏆</span>
+                <span>Top 20 Colleges Priority Enabled</span>
+            </div>
+        </header>
+
+        <!-- ERROR NOTIFICATION BANNER -->
+        <div id="errorBanner" class="alert-banner" style="display: none;"></div>
+
+        <!-- MAIN LAYOUT -->
+        <div class="content-grid">
+            <!-- SIDEBAR CONTROLS -->
+            <aside class="sidebar">
+                <div class="card sidebar-card">
+                    <h2 class="card-title">🎯 Student Score</h2>
+
+                    <div class="input-group">
+                        <label for="percentileInput">MHT CET Percentile (%)</label>
+                        <div class="input-row">
+                            <input type="number" id="percentileInput" min="0" max="100" step="0.1" value="92.5">
+                            <span class="input-unit">%</span>
+                        </div>
+                        <input type="range" id="percentileSlider" min="0" max="100" step="0.1" value="92.5"
+                            class="slider">
+                    </div>
+
+                    <div class="est-rank-box" id="rankBadge">
+                        📊 Estimated State Rank: <strong id="estRankValue">Calculating...</strong>
+                    </div>
+
+                    <hr class="divider">
+
+                    <h2 class="card-title">🏆 Priorities & Mode</h2>
+
+                    <div class="toggle-control">
+                        <label class="switch">
+                            <input type="checkbox" id="top20OnlyToggle" tabindex="0">
+                            <span class="slider-toggle"></span>
+                        </label>
+                        <span class="toggle-label">🏆 Top 20 Colleges Only</span>
+                    </div>
+
+                    <div class="toggle-control">
+                        <label class="switch">
+                            <input type="checkbox" id="prioritizeTop20Toggle" checked tabindex="0">
+                            <span class="slider-toggle"></span>
+                        </label>
+                        <span class="toggle-label">⭐ Prioritize Top 20 at Top</span>
+                    </div>
+
+                    <hr class="divider">
+
+                    <h2 class="card-title">⚙️ Category & Quotas</h2>
+
+                    <div class="input-group">
+                        <label for="categorySelect">Category Group</label>
+                        <select id="categorySelect">
+                            <option value="OPEN" selected>OPEN / General</option>
+                            <option value="OBC">OBC</option>
+                            <option value="SC">SC</option>
+                            <option value="ST">ST</option>
+                            <option value="EWS">EWS</option>
+                            <option value="TFWS">TFWS</option>
+                            <option value="VJ / NT">NT / VJ</option>
+                            <option value="ALL">All Categories</option>
+                        </select>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="genderSelect">Gender Preference</label>
+                        <select id="genderSelect">
+                            <option value="All" selected>All (General & Ladies)</option>
+                            <option value="General">General (Male & Female)</option>
+                            <option value="Ladies">Ladies Quota Only</option>
+                        </select>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="quotaSelect">University Quota</label>
+                        <select id="quotaSelect">
+                            <option value="All" selected>All Quotas</option>
+                            <option value="Home University">Home University (HU)</option>
+                            <option value="Other than Home University">Other than Home Uni (OHU)</option>
+                            <option value="State Level">State Level (SL)</option>
+                        </select>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="capRoundSelect">CAP Admission Round</label>
+                        <select id="capRoundSelect">
+                            <option value="ALL" selected>All CAP Rounds</option>
+                            <option value="1">CAP Round 1</option>
+                            <option value="2">CAP Round 2</option>
+                            <option value="3">CAP Round 3</option>
+                            <option value="4">CAP Round 4</option>
+                        </select>
+                    </div>
+
+                    <hr class="divider">
+
+                    <h2 class="card-title">📍 Location & Branch</h2>
+
+                    <div class="input-group">
+                        <label for="districtSelect">District / City Filter</label>
+                        <select id="districtSelect">
+                            <option value="ALL" selected>Loading Districts...</option>
+                        </select>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="branchSelect">Branch Preference</label>
+                        <select id="branchSelect">
+                            <option value="ALL" selected>Loading Branches...</option>
+                        </select>
+                    </div>
+
+                    <button class="btn btn-primary" id="btnPredict">🚀 Update Predictions</button>
+                </div>
+            </aside>
+
+            <!-- MAIN CONTENT AREA -->
+            <main class="main-body">
+                <!-- METRIC CARDS ROW -->
+                <div class="kpi-grid">
+                    <div class="kpi-card">
+                        <div class="kpi-val" id="kpiPercentile">92.50%</div>
+                        <div class="kpi-lbl">Your Percentile</div>
+                    </div>
+                    <div class="kpi-card kpi-top20">
+                        <div class="kpi-val" id="kpiTop20">0</div>
+                        <div class="kpi-lbl">Top 20 Matches</div>
+                    </div>
+                    <div class="kpi-card kpi-safe">
+                        <div class="kpi-val" id="kpiSafe">0</div>
+                        <div class="kpi-lbl">🟢 Safe (&gt;85%)</div>
+                    </div>
+                    <div class="kpi-card kpi-target">
+                        <div class="kpi-val" id="kpiTarget">0</div>
+                        <div class="kpi-lbl">🟡 Target (50-85%)</div>
+                    </div>
+                    <div class="kpi-card kpi-dream">
+                        <div class="kpi-val" id="kpiDream">0</div>
+                        <div class="kpi-lbl">🔴 Dream (&lt;50%)</div>
+                    </div>
+                </div>
+
+                <!-- NAVIGATION TABS -->
+                <div class="tabs-nav">
+                    <button class="tab-btn active" data-tab="tab-top20">🏆 Top 20 Maharashtra Showcase</button>
+                    <button class="tab-btn" data-tab="tab-predict">🎯 All College Predictions</button>
+                    <button class="tab-btn" data-tab="tab-option">📋 DTE Preference List</button>
+                </div>
+
+                <!-- TAB 1: TOP 20 SHOWCASE -->
+                <div class="tab-content active" id="tab-top20">
+                    <div class="section-header">
+                        <div>
+                            <h2>🏆 Top 20 Engineering Colleges in Maharashtra</h2>
+                            <p>Official priority ranking by DTE cutoffs, NIRF standings, and academic reputation.</p>
+                        </div>
+                        <div class="search-box">
+                            <input type="text" id="searchTop20" placeholder="🔍 Search Top 20 colleges...">
+                        </div>
+                    </div>
+
+                    <div class="table-container">
+                        <table class="data-table" id="top20Table">
+                            <thead>
+                                <tr>
+                                    <th>Rank</th>
+                                    <th>Code</th>
+                                    <th>College Name</th>
+                                    <th>City</th>
+                                    <th>Status</th>
+                                    <th>CSE Cutoff</th>
+                                    <th>IT Cutoff</th>
+                                    <th>Admission Chance</th>
+                                </tr>
+                            </thead>
+                            <tbody id="top20TableBody">
+                                <!-- Populated dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- TAB 2: ALL PREDICTIONS -->
+                <div class="tab-content" id="tab-predict">
+                    <div class="section-header">
+                        <div>
+                            <h2>🎯 Predicted College Admission Probabilities</h2>
+                            <p>Calibrated multi-year cutoffs (2023 - 2025) with empirical confidence intervals.</p>
+                        </div>
+                        <div class="table-actions">
+                            <input type="text" id="searchPredict" placeholder="🔍 Search college, code or branch...">
+                            <button class="btn btn-secondary" id="btnExportCsv">📥 Export CSV</button>
+                        </div>
+                    </div>
+
+                    <div class="table-container">
+                        <table class="data-table" id="predictTable">
+                            <thead>
+                                <tr>
+                                    <th>Tier Priority</th>
+                                    <th>Code</th>
+                                    <th>College Name</th>
+                                    <th>Course</th>
+                                    <th>District</th>
+                                    <th>Probability</th>
+                                    <th>Tag</th>
+                                    <th>Cutoff %</th>
+                                    <th>Historical Range</th>
+                                    <th>Why Recommended?</th>
+                                </tr>
+                            </thead>
+                            <tbody id="predictTableBody">
+                                <!-- Populated dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- PAGINATION CONTROLS -->
+                    <div class="pagination-bar" id="predictPagination">
+                        <button class="btn btn-sm btn-secondary" id="btnPredictPrev">◀ Prev</button>
+                        <span id="predictPageInfo">Page 1 of 1</span>
+                        <button class="btn btn-sm btn-secondary" id="btnPredictNext">Next ▶</button>
+                        <select id="predictPageSize" class="select-sm">
+                            <option value="25" selected>25 / page</option>
+                            <option value="50">50 / page</option>
+                            <option value="100">100 / page</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- TAB 3: DTE OPTION FORM -->
+                <div class="tab-content" id="tab-option">
+                    <div class="section-header">
+                        <div>
+                            <h2>📋 Official DTE Choice Form Preference List</h2>
+                            <p>Organized with Top 20 colleges first for maximum CAP allocation strategy.</p>
+                        </div>
+                        <button class="btn btn-primary btn-auto" id="btnDownloadOptionCsv">📥 Download Preference Form (CSV)</button>
+                    </div>
+
+                    <div class="table-container">
+                        <table class="data-table" id="optionTable">
+                            <thead>
+                                <tr>
+                                    <th>Pref #</th>
+                                    <th>Tier</th>
+                                    <th>Code</th>
+                                    <th>College Name</th>
+                                    <th>Course</th>
+                                    <th>Cutoff %</th>
+                                    <th>Chance</th>
+                                </tr>
+                            </thead>
+                            <tbody id="optionTableBody">
+                                <!-- Populated dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- OPTION FORM PAGINATION CONTROLS -->
+                    <div class="pagination-bar" id="optionPagination">
+                        <button class="btn btn-sm btn-secondary" id="btnOptionPrev">◀ Prev</button>
+                        <span id="optionPageInfo">Page 1 of 1</span>
+                        <button class="btn btn-sm btn-secondary" id="btnOptionNext">Next ▶</button>
+                        <select id="optionPageSize" class="select-sm">
+                            <option value="25" selected>25 / page</option>
+                            <option value="50">50 / page</option>
+                            <option value="100">100 / page</option>
+                        </select>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+
+</html>
