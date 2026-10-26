@@ -150,6 +150,8 @@ with st.sidebar.expander("⚙️ Category & Seat Filters", expanded=True):
     else:
         selected_cat_group = 'ALL'
         selected_spec_cat = st.selectbox("Seat Category Code", options['categories'])
+    selected_gender = st.selectbox("Gender Quota", options.get('gender_quotas', ['All']), index=0)
+    selected_univ = st.selectbox("University Quota", options.get('university_quotas', ['All']), index=0)
 
 with st.sidebar.expander("📍 Location & Branch Preferences", expanded=False):
     # District Selection
@@ -174,10 +176,6 @@ with st.sidebar.expander("📍 Location & Branch Preferences", expanded=False):
 # --- MAIN HEADER ---
 st.markdown('<div class="hero-header">🎓 MHT CET College Predictor & Analytics</div>', unsafe_allow_html=True)
 st.markdown('<div class="hero-sub">Get direct admission predictions for Maharashtra\'s <b>Top 20 Engineering Colleges</b>, analyze 3-year cutoff trends (2023-2025), and generate official DTE CAP Choice Forms.</div>', unsafe_allow_html=True)
-
-    # pyrefly: ignore [parse-error]
-    selected_gender = st.selectbox("Gender Quota", options.get('gender_quotas', ['All']), index=0)
-    selected_univ = st.selectbox("University Quota", options.get('university_quotas', ['All']), index=0)
 
 # Run Prediction Engine
 with st.spinner("Analyzing historical cutoff records..."):

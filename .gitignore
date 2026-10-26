@@ -1,0 +1,8 @@
+__pycache__/
+*.py[cod]
+*$py.class
+*.db
+temp_cutoff_*.csv
+.env
+.vscode/
+.idea/

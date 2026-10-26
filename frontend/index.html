@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MHT CET College Predictor — Maharashtra Engineering Admissions 2025</title>
+    <meta name="description"
+        content="AI-powered MHT CET college predictor. Find your best-fit engineering college in Maharashtra based on percentile, category, and branch preferences using 3 years of CAP cutoff data.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="/assets/styles.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎓</text></svg>">
+</head>
+
+<body>
+    <!-- ===== NAVIGATION ===== -->
+    <nav class="nav" id="mainNav">
+        <div class="nav__inner">
+            <a href="#" class="nav__logo">
+                <span class="nav__logo-icon">🎓</span>
+                <span class="nav__logo-text">CET<span class="accent">Predict</span></span>
+            </a>
+            <div class="nav__links">
+                <a href="#hero" class="nav__link active">Home</a>
+                <a href="#predictor" class="nav__link">Predictor</a>
+                <a href="#top20" class="nav__link">Top 20</a>
+                <a href="#trends" class="nav__link">Trends</a>
+            </div>
+            <button class="nav__cta" onclick="document.getElementById('predictor').scrollIntoView({behavior:'smooth'})">
+                Get Started →
+            </button>
+        </div>
+    </nav>
+
+    <!-- ===== HERO SECTION ===== -->
+    <section class="hero" id="hero">
+        <div class="hero__bg-text">CET</div>
+        <div class="hero__content">
+            <p class="hero__tag">Maharashtra Engineering Admissions 2025</p>
+            <h1 class="hero__title">
+                Find your <span class="hero__title--highlight">perfect college</span> with AI-powered predictions
+            </h1>
+            <p class="hero__subtitle">
+                Powered by <strong>3 years of CAP round cutoff data</strong> — enter your MHT CET percentile 
+                and discover which engineering colleges you can get into, ranked by admission probability.
+            </p>
+            <div class="hero__actions">
+                <button class="btn btn--primary btn--lg" onclick="document.getElementById('predictor').scrollIntoView({behavior:'smooth'})">
+                    Start Predicting →
+                </button>
+                <button class="btn btn--ghost btn--lg" onclick="document.getElementById('top20').scrollIntoView({behavior:'smooth'})">
+                    View Top 20 Colleges
+                </button>
+            </div>
+        </div>
+
+        <!-- Stats Bento Grid -->
+        <div class="hero__stats">
+            <div class="stat-card stat-card--accent">
+                <span class="stat-card__number" id="statColleges">500+</span>
+                <span class="stat-card__label">Colleges Tracked</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-card__number" id="statBranches">98</span>
+                <span class="stat-card__label">Engineering Branches</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-card__number">3</span>
+                <span class="stat-card__label">Years of Data (2023–25)</span>
+            </div>
+            <div class="stat-card stat-card--dark">
+                <span class="stat-card__number" id="statDistricts">30</span>
+                <span class="stat-card__label">Districts Covered</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== PREDICTOR SECTION ===== -->
+    <section class="predictor" id="predictor">
+        <div class="predictor__header">
+            <p class="section-tag">Predictor Tool</p>
+            <h2 class="section-title">Enter your details, get <span class="highlight">instant predictions</span></h2>
+            <p class="section-subtitle">Our ML model analyzes historical CAP cutoff data to estimate your admission probability at every college.</p>
+        </div>
+
+        <div class="predictor__layout">
+            <!-- Input Panel -->
+            <div class="predictor__panel">
+                <div class="panel-card">
+                    <h3 class="panel-card__title">Your Score</h3>
+                    <div class="form-group">
+                        <label for="percentileInput" class="form-label">MHT CET Percentile</label>
+                        <div class="input-with-unit">
+                            <input type="number" id="percentileInput" class="form-input form-input--lg" min="0"
+                                max="100" step="0.01" value="92.50" placeholder="92.50">
+                            <span class="input-unit">%</span>
+                        </div>
+                        <input type="range" id="percentileSlider" class="range-slider" min="0" max="100" step="0.1"
+                            value="92.5">
+                        <div class="rank-badge" id="rankBadge">
+                            <span class="rank-badge__icon">📊</span>
+                            <span>Est. Rank: <strong id="estRankValue">—</strong></span>
+                        </div>
+                    </div>
+
+                    <div class="form-divider"></div>
+
+                    <h3 class="panel-card__title">Filters</h3>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="categorySelect" class="form-label">Category</label>
+                            <select id="categorySelect" class="form-select">
+                                <option value="OPEN" selected>OPEN / General</option>
+                                <option value="OBC">OBC</option>
+                                <option value="SC">SC</option>
+                                <option value="ST">ST</option>
+                                <option value="EWS">EWS</option>
+                                <option value="TFWS">TFWS</option>
+                                <option value="VJ / NT">NT / VJ</option>
+                                <option value="ALL">All Categories</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="genderSelect" class="form-label">Gender Quota</label>
+                            <select id="genderSelect" class="form-select">
+                                <option value="All" selected>All</option>
+                                <option value="General">General</option>
+                                <option value="Ladies">Ladies Only</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="districtSelect" class="form-label">District</label>
+                            <select id="districtSelect" class="form-select">
+                                <option value="ALL" selected>All Districts</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="branchSelect" class="form-label">Branch</label>
+                            <select id="branchSelect" class="form-select">
+                                <option value="ALL" selected>All Branches</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="capRoundSelect" class="form-label">CAP Round</label>
+                            <select id="capRoundSelect" class="form-select">
+                                <option value="ALL" selected>All Rounds</option>
+                                <option value="1">Round 1</option>
+                                <option value="2">Round 2</option>
+                                <option value="3">Round 3</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="quotaSelect" class="form-label">University Quota</label>
+                            <select id="quotaSelect" class="form-select">
+                                <option value="All" selected>All</option>
+                                <option value="Home University">Home Uni</option>
+                                <option value="Other than Home University">Other Uni</option>
+                                <option value="State Level">State Level</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="toggle-row">
+                        <label class="toggle">
+                            <input type="checkbox" id="top20OnlyToggle">
+                            <span class="toggle__slider"></span>
+                            <span class="toggle__text">Top 20 Only</span>
+                        </label>
+                        <label class="toggle">
+                            <input type="checkbox" id="prioritizeTop20Toggle" checked>
+                            <span class="toggle__slider"></span>
+                            <span class="toggle__text">Prioritize Top 20</span>
+                        </label>
+                    </div>
+
+                    <button class="btn btn--primary btn--full" id="btnPredict">
+                        <span class="btn__icon">🚀</span> Find My Colleges
+                    </button>
+                </div>
+            </div>
+
+            <!-- Results Panel -->
+            <div class="predictor__results">
+                <!-- KPI Row -->
+                <div class="kpi-row">
+                    <div class="kpi" data-color="blue">
+                        <div class="kpi__value" id="kpiPercentile">92.50%</div>
+                        <div class="kpi__label">Your Percentile</div>
+                    </div>
+                    <div class="kpi" data-color="gold">
+                        <div class="kpi__value" id="kpiTop20">0</div>
+                        <div class="kpi__label">Top 20 Matches</div>
+                    </div>
+                    <div class="kpi" data-color="green">
+                        <div class="kpi__value" id="kpiSafe">0</div>
+                        <div class="kpi__label">Safe Options</div>
+                    </div>
+                    <div class="kpi" data-color="amber">
+                        <div class="kpi__value" id="kpiTarget">0</div>
+                        <div class="kpi__label">Target Options</div>
+                    </div>
+                    <div class="kpi" data-color="red">
+                        <div class="kpi__value" id="kpiDream">0</div>
+                        <div class="kpi__label">Dream Options</div>
+                    </div>
+                </div>
+
+                <!-- Tabs -->
+                <div class="result-tabs">
+                    <button class="result-tab active" data-tab="tab-predictions">All Predictions</button>
+                    <button class="result-tab" data-tab="tab-option">Preference List</button>
+                </div>
+
+                <!-- Loading State -->
+                <div class="loading-state" id="loadingState" style="display:none;">
+                    <div class="loading-spinner"></div>
+                    <p>Analyzing cutoff data...</p>
+                </div>
+
+                <!-- Empty State -->
+                <div class="empty-state" id="emptyState" style="display:none;">
+                    <div class="empty-state__icon">🔍</div>
+                    <h3>No colleges found</h3>
+                    <p>Try broadening your filters — select "All" for district or branch.</p>
+                </div>
+
+                <!-- Error Banner -->
+                <div class="alert-banner" id="errorBanner" style="display:none;"></div>
+
+                <!-- Predictions Tab -->
+                <div class="tab-panel active" id="tab-predictions">
+                    <div class="results-toolbar">
+                        <div class="search-box">
+                            <span class="search-box__icon">🔍</span>
+                            <input type="text" id="searchPredict" class="search-box__input"
+                                placeholder="Search college, branch, or city...">
+                        </div>
+                        <button class="btn btn--outline btn--sm" id="btnExportCsv">📥 Export CSV</button>
+                    </div>
+
+                    <div class="results-grid" id="predictionsGrid">
+                        <!-- Cards populated dynamically -->
+                    </div>
+
+                    <div class="pagination">
+                        <button class="btn btn--outline btn--sm" id="btnPredictPrev">← Previous</button>
+                        <span class="pagination__info" id="predictPageInfo">Page 1 of 1</span>
+                        <button class="btn btn--outline btn--sm" id="btnPredictNext">Next →</button>
+                        <select id="predictPageSize" class="form-select form-select--sm">
+                            <option value="12" selected>12 / page</option>
+                            <option value="24">24 / page</option>
+                            <option value="48">48 / page</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Option Form Tab -->
+                <div class="tab-panel" id="tab-option">
+                    <div class="results-toolbar">
+                        <p class="toolbar-text">Your optimized DTE CAP preference list — Top 20 colleges prioritized first.</p>
+                        <button class="btn btn--primary btn--sm" id="btnDownloadOptionCsv">📥 Download Preference CSV</button>
+                    </div>
+                    <div class="table-wrap">
+                        <table class="data-table" id="optionTable">
+                            <thead>
+                                <tr>
+                                    <th>Pref #</th>
+                                    <th>Tier</th>
+                                    <th>Code</th>
+                                    <th>College Name</th>
+                                    <th>Course</th>
+                                    <th>Cutoff %</th>
+                                    <th>Chance</th>
+                                </tr>
+                            </thead>
+                            <tbody id="optionTableBody"></tbody>
+                        </table>
+                    </div>
+                    <div class="pagination">
+                        <button class="btn btn--outline btn--sm" id="btnOptionPrev">← Previous</button>
+                        <span class="pagination__info" id="optionPageInfo">Page 1 of 1</span>
+                        <button class="btn btn--outline btn--sm" id="btnOptionNext">Next →</button>
+                        <select id="optionPageSize" class="form-select form-select--sm">
+                            <option value="25" selected>25 / page</option>
+                            <option value="50">50 / page</option>
+                            <option value="100">100 / page</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== TOP 20 SECTION ===== -->
+    <section class="top20" id="top20">
+        <div class="top20__header">
+            <p class="section-tag">Elite Institutions</p>
+            <h2 class="section-title">Top 20 Engineering Colleges <span class="highlight">in Maharashtra</span></h2>
+            <p class="section-subtitle">Curated by DTE cutoff data, NIRF rankings, and academic reputation. See where you stand.</p>
+        </div>
+
+        <div class="top20__toolbar">
+            <div class="search-box search-box--wide">
+                <span class="search-box__icon">🔍</span>
+                <input type="text" id="searchTop20" class="search-box__input"
+                    placeholder="Search by name, city, or code...">
+            </div>
+        </div>
+
+        <div class="top20__grid" id="top20Grid">
+            <!-- Top 20 cards populated dynamically -->
+        </div>
+    </section>
+
+    <!-- ===== CUTOFF TRENDS SECTION ===== -->
+    <section class="trends" id="trends">
+        <div class="trends__header">
+            <p class="section-tag">Historical Data</p>
+            <h2 class="section-title">Multi-year cutoff <span class="highlight">trends & insights</span></h2>
+            <p class="section-subtitle">Track how cutoffs have shifted across 2023–2025 CAP rounds for smarter admission strategy.</p>
+        </div>
+
+        <div class="trends__bento">
+            <div class="bento-card bento-card--wide">
+                <h3 class="bento-card__title">📈 How It Works</h3>
+                <p class="bento-card__text">Our ML model analyzes <strong>3 years of MHT CET CAP round cutoff data</strong> across all categories, genders, and university quotas. It computes a calibrated admission probability using a sigmoid function tuned on historical acceptance patterns.</p>
+            </div>
+            <div class="bento-card bento-card--accent">
+                <h3 class="bento-card__title">🟢 Safe (>85%)</h3>
+                <p class="bento-card__text">Your percentile is <strong>1.5+ points above</strong> the historical cutoff. Very likely to get admitted.</p>
+            </div>
+            <div class="bento-card">
+                <h3 class="bento-card__title">🟡 Target (50–85%)</h3>
+                <p class="bento-card__text">Competitive zone — your percentile is <strong>close to the cutoff</strong>. Apply strategically.</p>
+            </div>
+            <div class="bento-card bento-card--dark">
+                <h3 class="bento-card__title">🔴 Dream (<50%)</h3>
+                <p class="bento-card__text">Aspirational pick — cutoff is <strong>above your score</strong>. Include as backup only.</p>
+            </div>
+            <div class="bento-card bento-card--wide">
+                <h3 class="bento-card__title">🏆 Top 20 Priority Ranking</h3>
+                <p class="bento-card__text">Our Top 20 list is compiled from DTE merit data, NIRF 2024 rankings, and student preference trends. When "Prioritize Top 20" is enabled, these institutions are boosted to the top of all prediction results and preference lists.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="footer">
+        <div class="footer__inner">
+            <div class="footer__brand">
+                <span class="nav__logo-icon">🎓</span>
+                <span class="nav__logo-text">CET<span class="accent">Predict</span></span>
+                <p class="footer__desc">ML-powered MHT CET college predictor for Maharashtra engineering admissions.</p>
+            </div>
+            <div class="footer__links">
+                <a href="#hero">Home</a>
+                <a href="#predictor">Predictor</a>
+                <a href="#top20">Top 20</a>
+                <a href="#trends">Methodology</a>
+            </div>
+            <div class="footer__copy">
+                <p>Data sourced from DTE Maharashtra CAP rounds (2023–2025). Predictions are estimates, not guarantees.</p>
+                <p>© 2025 CETPredict — Built with ❤️ for Maharashtra students</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="/assets/app.js"></script>
+</body>
+
+</html>
